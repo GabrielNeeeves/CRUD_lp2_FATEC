@@ -14,14 +14,13 @@ public class PessoaData extends Conexao implements CRUD {
         PessoaModel pm = new PessoaModel();
         if(obj instanceof PessoaModel)
             pm = (PessoaModel) obj;
-        String sql = "INSERT INTO tbPessoas VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tbPessoas (NOME, EMAIL, SENHA, TELEFONE, ENDERECO) VALUES (?, ?, ?, ?, ?)";
         try(PreparedStatement ps = Conexao.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, pm.getId());
-            ps.setString(2, pm.getNome());
-            ps.setString(3, pm.getEmail());
-            ps.setString(4, pm.getSenha());
-            ps.setString(5, pm.getTelefone());
-            ps.setString(6, pm.getEndereco());
+            ps.setString(1, pm.getNome());
+            ps.setString(2, pm.getEmail());
+            ps.setString(3, pm.getSenha());
+            ps.setString(4, pm.getTelefone());
+            ps.setString(5, pm.getEndereco());
 
             int upt = ps.executeUpdate();
             if(upt != 0) return true;
