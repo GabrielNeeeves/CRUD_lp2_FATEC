@@ -9,7 +9,7 @@ public class Conexao {
     private static Connection conn;
 
     static String url = "jdbc:postgresql://localhost:5432/postgres";
-    static String usuario = "postgres";
+    static String usuario = "ganeves"; //postgres
     static String pass = "rootadmin";
 
     public static Connection getConexao() throws SQLException {

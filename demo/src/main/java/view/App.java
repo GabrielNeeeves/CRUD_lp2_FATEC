@@ -27,7 +27,7 @@ public class App {
 
                switch (opcao) {
                    case 1:
-                       PessoaModel pm = new PessoaModel("karl", "karl@gmail.com", "c@kkk3", "(99)9999-9999", "Rua Exemplo, 123 - Rio Preto");
+                       PessoaModel pm = new PessoaModel("Carol", "carolp@gmail.com", "c@r0L3", "(99)9999-9999", "Rua Exemplo, 123 - Rio Preto");
                        if(pmDAO.incluir(pm)) System.out.println("Salvo");
                        else System.out.println("Erro ao salvar");
                        break;
@@ -40,6 +40,7 @@ public class App {
                }
            } catch (Exception e) {
                System.out.println("Erro de CRUD: "+e.getMessage());
+               e.printStackTrace();
            }
         } while (opcao != 9);
 

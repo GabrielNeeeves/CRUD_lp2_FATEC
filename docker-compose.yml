@@ -1,0 +1,16 @@
+version: '3.9'
+
+volumes:
+  db_lp2Crud:
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: rootadmin
+      POSTGRES_USER: ganeves
+      POSTGRES_DB: lp2Crud
+    volumes:
+      - db_lp2Crud:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
