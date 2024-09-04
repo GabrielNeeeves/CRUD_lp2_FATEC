@@ -4,8 +4,10 @@ import model.PessoaModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PessoaData extends Conexao implements CRUD {
 
@@ -42,18 +44,19 @@ public class PessoaData extends Conexao implements CRUD {
     }
 
     @Override
-    public boolean atualizar(Object ob) throws Exception {
+    public boolean atualizar(int id, Object ob) throws Exception {
         PessoaModel pm = new PessoaModel();
         if(ob instanceof PessoaModel) {
             pm = (PessoaModel) ob;
         }
-        String sql = "UPDATE tbPessoas SET nome = ?, email = ?, senha = ?, telefone = ?, endereco = ?";
+        String sql = "UPDATE tbPessoas SET nome = ?, email = ?, senha = ?, telefone = ?, endereco = ? WHERE ID = ?";
         try(PreparedStatement ps = getConexao().prepareStatement(sql)) {
             ps.setString(1, pm.getNome());
             ps.setString(2, pm.getEmail());
             ps.setString(3, pm.getSenha());
             ps.setString(4, pm.getTelefone());
             ps.setString(5, pm.getEndereco());
+            ps.setInt(6, id);
 
             int upt = ps.executeUpdate();
             if(upt != 0) return true;
@@ -70,5 +73,24 @@ public class PessoaData extends Conexao implements CRUD {
     @Override
     public Object pesquisar(int id) throws Exception {
         return new Object();
+    }
+
+    //SELECT
+    @Override
+    public void select() throws Exception {
+        String sql = "SELECT * FROM tbPessoas";
+        try(PreparedStatement ps = Conexao.getConexao().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+            while(rs.next()) {
+                System.out.printf("""
+                        ID: %d | NOME: %s | EMAIL: %s | SENHA: %s | TELEFONE: %s | ENDEREÇO: %s\n""",
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6));
+            }
+        }
     }
 }

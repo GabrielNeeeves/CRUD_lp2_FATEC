@@ -17,7 +17,7 @@ public class TesteConexao {
         try (Connection conn = conexao.getConexao()) {
 
 //            stData.incluir(sm);
-            stData.select(conn);
+//            stData.select(conn);
 
         } catch (SQLException e) {
             System.out.println("Erro na Main: "+e.getMessage());

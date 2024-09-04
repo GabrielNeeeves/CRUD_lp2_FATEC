@@ -37,7 +37,7 @@ public class StatusData extends Conexao implements CRUD {
     }
 
     @Override
-    public boolean atualizar(Object obj) throws SQLException {
+    public boolean atualizar(int id, Object obj) throws SQLException {
         if(obj instanceof StatusModel) {
             StatusModel st = (StatusModel) obj;
             String sql = "UPDATE tbstatus SET DESCRICAO = ? WHERE id = ?";
@@ -64,18 +64,17 @@ public class StatusData extends Conexao implements CRUD {
         return obj;
     }
 
-    //SELECT MEu
-    public void select(Connection conn) throws SQLException {
-        String sql = "SELECT * FROM tbstatus";
-        try(PreparedStatement ps = conn.prepareStatement(sql);
+    //SELECT
+    @Override
+    public void select() throws Exception {
+        String sql = "SELECT * FROM tbStatus";
+        try(PreparedStatement ps = Conexao.getConexao().prepareStatement(sql);
             ResultSet rs = ps.executeQuery()) {
-
             while(rs.next()) {
-                int id = rs.getInt(1);
-                String stts = rs.getString(2);
                 System.out.printf("""
-                        \n ID: %d | DESCRIÇÃO: %s
-                        """, id, stts);
+                        ID: %s | DESCRIÇÃO: %s \n""",
+                        rs.getInt(1),
+                        rs.getString(2));
             }
         }
     }
