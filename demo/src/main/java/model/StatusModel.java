@@ -6,6 +6,15 @@ public class StatusModel {
     private String descricao;
 
     public StatusModel(){}
+    public StatusModel(int id, String desc) {
+        this.id = id;
+        descricao = desc;
+    }
+
+    public StatusModel(String desc) {
+        descricao = desc;
+    }
+
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;

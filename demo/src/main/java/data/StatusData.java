@@ -31,6 +31,7 @@ public class StatusData extends Conexao implements CRUD {
         try(PreparedStatement ps = getConexao().prepareStatement(sql)) {
             ps.setInt(1, id);
             int upt = ps.executeUpdate();
+            if(upt != 0) System.out.println("Status excluído");
             if(upt != 0) return true;
             else return false;
         }
@@ -45,20 +46,36 @@ public class StatusData extends Conexao implements CRUD {
                 ps.setString(1, st.getDescricao());
                 ps.setInt(2, st.getId());
                 int upt = ps.executeUpdate();
-                if(upt != 0) return true;
+                if(upt != 0) {
+                    System.out.println("Status atualizado");
+                    return true;
+                }
                 else return false;
             }
         } else return false;
 
     }
 
-    @Override
-    public ArrayList<Object> pesquisar(String pesquisa) throws SQLException {
-        ArrayList<Object> dados = new ArrayList<>();
-        return dados;
+    public ArrayList<StatusModel> pesquisar(String pesquisa) throws SQLException {
+        ArrayList<StatusModel> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM tbStatus WHERE descricao LIKE ?";
+        try(PreparedStatement ps = Conexao.getConexao().prepareStatement(sql)) {
+            ps.setString(1, pesquisa+"%");
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                int id = rs.getInt(1);
+                String desc = rs.getString(2);
+                StatusModel sm = new StatusModel(id, desc);
+
+                lista.add(sm);
+            }
+            rs.close();
+            return lista;
+        }
     }
 
-    @Override
     public StatusModel pesquisar(int id) throws SQLException {
         StatusModel obj = new StatusModel();
         return obj;
@@ -74,8 +91,7 @@ public class StatusData extends Conexao implements CRUD {
                 int id = rs.getInt(1);
                 String stts = rs.getString(2);
                 System.out.printf("""
-                        \n ID: %d | DESCRIÇÃO: %s
-                        """, id, stts);
+                        ID: %d | DESCRIÇÃO: %s \n""", id, stts);
             }
         }
     }
