@@ -1,36 +1,33 @@
-CREATE DATABASE tbStatus;
-
-CREATE TABLE tbStatus (
-	id serial primary key,
-	descricao varchar(100) not null
-);
-
-INSERT INTO TBSTATUS (descricao) VALUES ('Cancelado');
-
-SELECT * FROM TBSTATUS;
-
-create table tbPessoas(
-	id serial primary key,
+CREATE TABLE tbPessoas (
+	id SERIAL PRIMARY KEY,
 	nome varchar(200),
 	email varchar(200),
-	senha varchar(20),
-	telefone varchar(100),
+	senha varchar(200),
+	telefone varchar(200),
 	endereco varchar(200)
 );
 
+SELECT * FROM TBPESSOAS;
 
-delete from TBPESSOAS where ID = 0;
 
-select * from TBPESSOAS;
+CREATE TABLE TBSTATUS (
+	id serial PRIMARY KEY,
+	situacao varchar(30)
+);
 
-create table tbProdutos (
-	id serial primary key,
-	descricao varchar(200),
-	preco decimal(6, 2),
-	quantidade int,
+SELECT * FROM tbstatus;
+
+
+CREATE TABLE tbProduto (
+	id serial PRIMARY KEY,
+	descricao varchar(200) NOT null,
+	preco decimal(6,2) NOT null,
+	quantidade int NOT NULL,
 	idStatus int,
-	foreign key (idStatus) references tbStatus(id)
-)
+	FOREIGN KEY (idStatus) REFERENCES tbStatus(id) ON UPDATE CASCADE ON DELETE cascade
+);
 
-select * from tbProdutos;
+INSERT INTO TBPRODUTO (DESCRICAO, PRECO, QUANTIDADE, IDSTATUS) VALUES
+	('Peixe', 19.99, 200, 1);
 
+SELECT * FROM tbProduto;
