@@ -10,13 +10,11 @@ import java.util.ArrayList;
 
 public class StatusData extends Conexao implements CRUD {
 
-//    public StatusData() throws Exception{}
-
     @Override
     public boolean incluir(Object obj) throws SQLException {
         if(obj instanceof StatusModel) {
             StatusModel sm = (StatusModel) obj;
-            String sql = "INSERT INTO tbstatus (descricao) VALUES (?)";
+            String sql = "INSERT INTO tbstatus (situacao) VALUES (?)";
             try(PreparedStatement ps = getConexao().prepareStatement(sql)) {
                 ps.setString(1, sm.getDescricao());
                 if(ps.executeUpdate() > 0) return true;
@@ -81,7 +79,7 @@ public class StatusData extends Conexao implements CRUD {
         return obj;
     }
 
-    //SELECT MEu
+    //SELECT MEU
     public void select(Connection conn) throws SQLException {
         String sql = "SELECT * FROM tbstatus";
         try(PreparedStatement ps = conn.prepareStatement(sql);

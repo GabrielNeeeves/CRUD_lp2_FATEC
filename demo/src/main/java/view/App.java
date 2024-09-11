@@ -2,10 +2,13 @@ package view;
 
 import data.Conexao;
 import data.PessoaData;
+import data.ProdutoData;
 import data.StatusData;
 import model.PessoaModel;
+import model.ProdutoModel;
 import model.StatusModel;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,13 +16,15 @@ public class App {
     public static void main(String[] args) {
         StatusModel smObj = new StatusModel();
         StatusData statusDAO = new StatusData();
-        var pmDAO = new PessoaData();
+        PessoaData pmDAO = new PessoaData();
+        ProdutoData prodData = new ProdutoData();
         int opcao = 0;
         Scanner sc = new Scanner(System.in);
         do {
            try {
                System.out.println("MENU");
                System.out.println("Escolha uma opção");
+               System.out.println("0. Novo Status");
                System.out.println("1. Nova Pessoa");
                System.out.println("2. Pesquisar Status");
                System.out.println("3. Pesquisar Pessoa");
@@ -29,10 +34,25 @@ public class App {
                System.out.println("7. Atualizar Pessoa");
                System.out.println("8. Listar Status");
                System.out.println("9. Listar Pessoas");
+               System.out.println("============");
+               System.out.println("10. Listar Produtos");
+               System.out.println("11. Incluir Produto");
+               System.out.println("12. Atualizar Produto");
+               System.out.println("13. Deletar Produto");
                System.out.println("20. Sair");
                opcao = sc.nextInt();
 
                switch (opcao) {
+                   case 0:
+                       System.out.println("Digite a situação do Status: ");
+                       String sit = sc.next();
+                       var novoStatus = new StatusModel(sit);
+                       if(statusDAO.incluir(novoStatus)) {
+                           System.out.println("Novo Status criado");
+                       } else {
+                           System.out.println("Erro ao incluir Status");
+                       }
+                       break;
                    case 1:
                        PessoaModel pm = new PessoaModel("Pedro", "pedrop@gmail.com", "P3dr)0", "(99)3452-9999", "Rua AAA, 435 - Rio Preto");
                        if(pmDAO.incluir(pm)) System.out.println("Salvo");
@@ -103,6 +123,58 @@ public class App {
                        break;
                    case 9:
                        pmDAO.selectPessoas(Conexao.getConexao());
+                       break;
+                   case 10:
+                       prodData.selectProd(Conexao.getConexao());
+                       break;
+                   case 11:
+                       System.out.println("Descrição do Produto: ");
+                       String descProd = sc.next();
+
+                       System.out.println("Preço do Produto: ");
+                       double precoProd = sc.nextDouble();
+
+                       System.out.println("Quantidade em Estoque: ");
+                       int qtd = sc.nextInt();
+
+                       statusDAO.select(Conexao.getConexao());
+                       System.out.println("# Status do Produto: ");
+                       int sttsProd = sc.nextInt();
+                       prodData.incluir(new ProdutoModel(descProd, precoProd, qtd, sttsProd));
+                       break;
+                   case 12:
+                       prodData.selectProd(Conexao.getConexao());
+                       System.out.println("Selecione o ID para atualizar: ");
+                       int idProdUpt = sc.nextInt();
+
+                       System.out.println("Nova Descrição: ");
+                       String descProdUpt = sc.next();
+
+                       System.out.println("Novo Preço: ");
+                       double precoProdUpt = sc.nextDouble();
+
+                       System.out.println("Nova Quantidade: ");
+                       int qtdProdUpt = sc.nextInt();
+
+                       statusDAO.select(Conexao.getConexao());
+                       System.out.println("# Novo Status: ");
+                       int idProdSttsUpt = sc.nextInt();
+
+                       ProdutoModel novoProd = new ProdutoModel(idProdUpt, descProdUpt, precoProdUpt, qtdProdUpt, idProdSttsUpt);
+                       if(prodData.atualizar(novoProd))
+                           System.out.println("Produto atualizado");
+                       else System.out.println("Falha ao atualizar");
+                       break;
+                   case 13:
+                       prodData.selectProd(Conexao.getConexao());
+                       System.out.println("# Selecione o ID para excluir: ");
+                       int idProdDel = sc.nextInt();
+
+                       if(prodData.excluir(idProdDel))
+                           System.out.println("Produto excluido");
+                       else {
+                           System.out.println("Falha ao axcluir Produto");
+                       }
                        break;
                    case 20:
                        System.out.println("Saiu");

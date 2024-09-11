@@ -6,6 +6,7 @@ public class StatusModel {
     private String descricao;
 
     public StatusModel(){}
+
     public StatusModel(int id, String desc) {
         this.id = id;
         descricao = desc;
